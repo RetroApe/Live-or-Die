@@ -5,16 +5,20 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] float enemySpeed = 2f;
-    [SerializeField] float period = 5f;
+    [SerializeField] float period = 4f;
     [SerializeField] [Range(0,1)] float interval;
-     
+    [SerializeField] Transform enemyProjectile;
+    [SerializeField] Transform enemyFiring1;
+    [SerializeField] Transform enemyFiring2;
+
     float time;
     float destroyAt = -20f;
     int healthPoints = 5;
 
     void Start()
     {
-        
+        InvokeRepeating("Shoot1", 4f, 2f);
+        InvokeRepeating("Shoot2", 5f, 2f);
     }
 
     void Update()
@@ -30,13 +34,22 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    void Shoot1()
+    {
+            Instantiate(enemyProjectile, enemyFiring1.position, enemyProjectile.rotation * Quaternion.Euler(0f, 0f, 0f));
+    }
+    void Shoot2()
+    {
+            Instantiate(enemyProjectile, enemyFiring2.position, enemyProjectile.rotation * Quaternion.Euler(0f, 0f, 0f));
+    }
+
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Projectile")
         {
             healthPoints--;
             Destroy(collision.gameObject);
-            Debug.Log("Enemy Hit");
         }
         if (healthPoints == 0)
         {

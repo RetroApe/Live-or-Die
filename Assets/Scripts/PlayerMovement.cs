@@ -20,7 +20,14 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.tag == "Enemy")
+        {
+            Destroy(gameObject);
+        }
+    }
+
 
     void MovePlayer()
     {
